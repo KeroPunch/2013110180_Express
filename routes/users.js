@@ -1,20 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const userController = require('../controllers/userController')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.status(200).json({
-    fullname: 'Kritsakorn Dechalert',
-  });
-});
+router.get('/',userController.index );
 
-router.get('/bio', function(req, res, next) {
-  res.status(200).json({
-    fullname: 'Kritsakorn Dechalert',
-    nickname: 'Kong',
-    hobby: 'Travel',
-    gitusername: 'KeroPunch'
-  });
-});
+router.get('/bio',userController.bio );
 
 module.exports = router;
