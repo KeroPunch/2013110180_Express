@@ -18,10 +18,20 @@ exports.index = async (req, res, next) => {
       });
   };
 
-  exports.menu = async (req, res, next) => {
-    const menu = await Menu.find();
-
+exports.menu = async (req, res, next) => {
+    //const menu = await Menu.find().select('name price').where('price').gt(150);
+    const menu = await Menu.find().populate('shop');
     res.status(200).json({
       data: menu,
     });
-  };
+};
+
+exports.show = async (req, res, next) => {
+    const { id } = req.params;
+    const shop = await Shop.findOne({
+        _id: id,
+    }).populate('menus');
+    res.status(200).json({
+        data: shop,
+    });
+};

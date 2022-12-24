@@ -4,13 +4,18 @@ const Schema = mongoose.Schema
 const menuSchema = new Schema({
     name:  { type: String, required:true,trim:true }, // String is shorthand for {type: String}
     price: { type: Number},
-    shop: {type: Schema.Types.ObjectId, ref: 'Shop'},
+    shop: {type: Schema.Types.ObjectId, ref: 'shop'},
     // createdAt: { type: Date, default: Date.now },
     // updateAt: { type: Date, default: Date.now }
   },{
+    toJSON: {virtuals: true},
     timestamps:true,
     collection:"menus" });
 
-  const menu = mongoose.model("Menu",menuSchema)
+menuSchema.virtual('price_vat').get(function(){
+    return (this.price*0.07) + this.price;
+})
 
-  module.exports = menu
+const menu = mongoose.model("Menu",menuSchema)
+
+module.exports = menu
