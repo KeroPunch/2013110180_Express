@@ -1,13 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const Shop = require("../models/shop");
+const shopController = require('../controllers/shopController')
 
 /* GET users listing. */
-router.get("/", async function (req, res, next) {
-    const shop = await Shop.find();
-    res.status(200).json({
-        data: shop,
-    });
-});
+router.get("/",shopController.index );
 
 module.exports = router;
