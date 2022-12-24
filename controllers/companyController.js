@@ -97,6 +97,7 @@ exports.update = async (req, res, next) => {
     });
   }
 };
+
 /*exports.index = (req, res, next) => {
   res.status(200).json({
     data: [
