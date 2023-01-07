@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const shopSchema = new Schema({
     name:  { type: String, required:true,trim:true }, // String is shorthand for {type: String}
-    photo: { type: String,default: 'nopic.png' },
+    photo: { type: String, default: 'nopic.png' },
     location: {
         lat: Number,
         lgn: Number
