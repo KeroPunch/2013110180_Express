@@ -33,18 +33,22 @@ exports.show = async (req, res, next) => {
       _id: id,
     });
     if (!company) {
-      throw new Error("ไม่พบบริษัท");
+      const error= new Error("ไม่พบข้อมูล")
+      error.statusCode = 400
+      throw error;
+      //throw new Error("ไม่พบบริษัท");
     } else {
       res.status(200).json({
         data: company,
       });
     }
   } catch (error) {
-    res.status(400).json({
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 
@@ -57,18 +61,22 @@ exports.destroy = async (req, res, next) => {
     });
 
     if (company.deletedCount === 0) {
-      throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบบริษัท");
+      const error= new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบบริษัท")
+      error.statusCode = 401
+      throw error;
+      //throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบบริษัท");
     } else {
       res.status(200).json({
         message: "ลบข้อมูลเรียบร้อย",
       });
     }
   } catch (error) {
-    res.status(400).json({
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 
@@ -90,11 +98,14 @@ exports.update = async (req, res, next) => {
       message: "เพิ่มข้อมูลเรียบร้อย",
     });
   } catch (error) {
-    res.status(400).json({
+    error = new Error("เกิดข้อผิดพลาด: " + error.message)
+    error.statusCode = 402
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 

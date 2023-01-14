@@ -43,18 +43,22 @@ exports.show = async (req, res, next) => {
       _id: id,
     });
     if (!staff) {
-      throw new Error("ไม่พบผู้ใช้งาน");
+      const error = new Error("ไม่พบผู้ใช้งาน")
+      error.statusCode = 400
+      throw error;
+      //throw new Error("ไม่พบผู้ใช้งาน");
     } else {
       res.status(200).json({
         data: staff,
       });
     }
   } catch (error) {
-    res.status(400).json({
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 
@@ -67,18 +71,22 @@ exports.destroy = async (req, res, next) => {
     });
 
     if (staff.deletedCount === 0) {
-      throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบผู้ใช้งาน");
+      const error= new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบผู้ใช้งาน")
+      error.statusCode = 401
+      throw error;
+      //throw new Error("ไม่สามารถลบข้อมูลได้ / ไม่พบผู้ใช้งาน");
     } else {
       res.status(200).json({
         message: "ลบข้อมูลเรียบร้อย",
       });
     }
   } catch (error) {
-    res.status(400).json({
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 
@@ -108,11 +116,14 @@ exports.update = async (req, res, next) => {
       message: "เพิ่มข้อมูลเรียบร้อย",
     });
   } catch (error) {
-    res.status(400).json({
+    error = new Error("เกิดข้อผิดพลาด: " + error.message)
+    error.statusCode = 402
+    next(error)
+    /*res.status(400).json({
       error: {
         message: "เกิดข้อผิดพลาด" + error.message,
       },
-    });
+    });*/
   }
 };
 
