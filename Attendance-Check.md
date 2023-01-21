@@ -4,4 +4,5 @@
 >> Kritsakorn (Kong): Chapter 4 - Introduction MongoDB
 >> Kritsakorn (Kong): Chapter 5 - Advance Mongoose
 >> Kritsakorn (Kong): Chapter 6 - Upload File
->> Kritsakorn (Kong): Chapter 7 - Upload File Part2
+>> Kritsakorn (Kong): Chapter 6 - Upload File Part2
+>> Kritsakorn (Kong): Chapter 7 - Node.js Environment with login
