@@ -1,4 +1,5 @@
 const Staff = require("../models/staff");
+const { validationResult } = require('express-validator')
 const fs = require("fs");
 const path = require("path");
 const uuidv4 = require("uuid");
@@ -22,18 +23,30 @@ exports.index = async (req, res, next) => {
 };
 
 exports.insert = async (req, res, next) => {
-  const { name, salary, photo } = req.body;
+  try{
+    const { name, salary, photo } = req.body;
+  
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      const error = new Error("ข้อมูลที่ได้รับไม่ถูกต้อง")
+      error.statusCode = 422;
+      error.validation = errors.array()
+      throw error;
+    }
 
-  let staff = new Staff({
-    name: name,
-    salary: salary,
-    photo: await saveImageToDisk(photo),  
-  });
-  await staff.save();
+    let staff = new Staff({
+      name: name,
+      salary: salary,
+      photo: await saveImageToDisk(photo),  
+    });
+    await staff.save();
 
-  res.status(200).json({
-    message: "เพิ่มข้อมูลเรียบร้อย",
-  });
+    res.status(200).json({
+      message: "เพิ่มข้อมูลเรียบร้อย",
+    })
+  }catch (error){
+    next(error)
+}
 };
 
 exports.show = async (req, res, next) => {

@@ -1,5 +1,6 @@
 const Shop = require("../models/shop");
 const Menu = require("../models/menu");
+const { validationResult } = require('express-validator')
 const config = require("../config/index");
 const fs = require("fs");
 const path = require("path");
@@ -45,18 +46,31 @@ exports.show = async (req, res, next) => {
 };
 
 exports.insert = async (req, res, next) => {
-  const { name, location, photo } = req.body;
+  try{
+    const { name, location, photo } = req.body;
 
-  let shop = new Shop({
-    name: name,
-    location: location,
-    photo: await saveImageToDisk(photo)
-  });
-  await shop.save();
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      const error = new Error("ข้อมูลที่ได้รับไม่ถูกต้อง")
+      error.statusCode = 422;
+      error.validation = errors.array()
+      throw error;
+    }
 
-  res.status(200).json({
-    message: "เพิ่มข้อมูลเรียบร้อย",
-  });
+
+    let shop = new Shop({
+      name: name,
+      location: location,
+      photo: await saveImageToDisk(photo)
+    });
+    await shop.save();
+
+    res.status(200).json({
+      message: "เพิ่มข้อมูลเรียบร้อย",
+    });
+  }catch (error){
+    next(error)
+}
 };
 
 async function saveImageToDisk(baseImage) {
