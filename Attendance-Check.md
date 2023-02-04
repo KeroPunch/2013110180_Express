@@ -6,3 +6,4 @@
 >> Kritsakorn (Kong): Chapter 6 - Upload File
 >> Kritsakorn (Kong): Chapter 7 - Upload File Part2
 >> Kritsakorn (Kong): Chapter 8 - Node.js Environment with login
+>> Kritsakorn (Kong): Chapter 9 - User Authentication
