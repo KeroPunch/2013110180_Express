@@ -97,3 +97,9 @@ exports.login = async(req,res,next) => {
     next(error)
  }
 }
+
+exports.profile = async(req,res,next) => {
+  res.status(200).json({
+    user: req.user
+  })
+}
